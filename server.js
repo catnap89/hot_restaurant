@@ -7,7 +7,7 @@ var PORT = process.env.PORT || 3000;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-var characters = [
+var reservations = [
     {
         routeName: "ryan",
         name: "Ryan",
@@ -30,6 +30,8 @@ var characters = [
         id: 3
     }
   ];
+
+  var waitlist = [];
   
   app.get("/", function(req, res) {
     res.sendFile(path.join(__dirname, "index.html"));
@@ -43,11 +45,26 @@ var characters = [
     res.sendFile(path.join(__dirname, "reservation.html"));
   });
   
-  app.get("/api/characters", function(req, res) {
-      return res.json(characters);
+  app.get("/api/table", function(req, res) {
+      return res.json(reservations);
   })
 
+  // Create New Characters - takes in JSON input
+app.post("/api/table", function(req, res) {
+    // req.body hosts is equal to the JSON post sent from the user
+    // This works because of our body parsing middleware
+    var newReservation = req.body;
   
+    // Using a RegEx Pattern to remove spaces from newCharacter
+    // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
+    newReservation.routeName = newReservation.name.replace(/\s+/g, "").toLowerCase();
+  
+    console.log(newReservation);
+  
+    reservations.push(newReservation);
+  
+    res.json(newReservation);
+  });
   
   app.listen(PORT, function() {
     console.log("App listening on PORT " + PORT);
