@@ -38,12 +38,32 @@
           <label for="exampleInputPassword1">Unique ID</label>
           <input type="number" class="form-control" id="unique_id" placeholder="Id">
         </div>
-        <button type="submit" class="btn btn-primary mb-2">Submit</button>
+        <button type="submit" class="btn btn-primary mb-2" id="add-btn">Submit</button>
         </div>
         </div>
       </form>
       <!--Form End-->
     <a href="">API Table Link</a>|<a href="">API Wait List</a>
+
+  <script type="text/javascript">
+    // Question: What does this code do?
+    $("#add-btn").on("click", function(event) {
+      event.preventDefault();
+      var newReservation = {
+        name: $("#customer_name").val().trim(),
+        phoneNumber: $("#phoneNum_form").val().trim(),
+        email: $("#email_form").val().trim(),
+        id: $("#unique_id").val().trim()
+      };
+
+      // Question: What does this code do??
+      $.post("/api/table", newCharacter)
+        .then(function(data) {
+          console.log("reservation.html", data);
+          alert("Adding reservation...");
+        });
+    });
+  </script>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
